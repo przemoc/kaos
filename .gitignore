@@ -1,0 +1,11 @@
+*.o
+/dumbdump/dumbdump
+/kmod/src/Module.symvers
+/kmod/src/modules.order
+/kmod/src/.tmp_versions
+/kmod/src/*.cmd
+/kmod/src/*.ko
+/kmod/src/*.mod.c
+/src/Makefile
+/src/kaos
+/src/moc_*
