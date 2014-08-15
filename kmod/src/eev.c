@@ -11,6 +11,8 @@
 #include <linux/input.h>
 #include <linux/relay.h>
 #include <linux/debugfs.h>
+#include <linux/types.h>
+#include <linux/version.h>
 
 #define EEV_PREFIX "eev: "
 
@@ -22,9 +24,23 @@ static const size_t n_subbufs   __initconst = 32;
 
 static struct file_operations relay_file_operations_w_owner;
 
+
+/*
+ * umode_t is typedef for unsigned short that was introduced in linux/types.h
+ * in v3.3 (0583fcc96b: consolidate umode_t declarations) and started being
+ * used in many places, like rchan callback create_buf_file.
+ *
+ * Using #if for function prototypes is nasty, so let's typedef umode_t in
+ * pre-v3.3 kernels to the type used for mode parameter before, which is int.
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0)
+typedef int umode_t;
+#endif
+
+
 static struct dentry *
 create_buf_file_handler(const char *filename, struct dentry *parent,
-                        int mode, struct rchan_buf *buf, int *is_global)
+                        umode_t mode, struct rchan_buf *buf, int *is_global)
 {
 	static struct dentry *file;
 
