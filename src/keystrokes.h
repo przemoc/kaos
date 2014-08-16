@@ -1,6 +1,6 @@
 /* Key Activity On-Screen display - visual class header
  *
- * (C) Copyright 2010 Przemyslaw Pawelczyk <przemoc@gmail.com>
+ * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
  * This file is released under the GPLv2.
  * See the file COPYING for more details.
@@ -11,13 +11,16 @@
 
 #include <QWidget>
 
+
 template <class T>
 class QLinkedList;
+
 
 typedef struct KeyInfo {
 	unsigned code;
 	bool down;
 } KeyInfo;
+
 
 class KeyStrokes : public QWidget
 {
@@ -51,5 +54,6 @@ private:
 	QLinkedList<KeyInfo> *list;
 	QLinkedList<unsigned> *removal_list;
 };
+
 
 #endif // KEYSTROKES_H

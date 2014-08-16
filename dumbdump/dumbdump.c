@@ -1,6 +1,6 @@
 /* Key Activity On-Screen display - Dumb Dump test application
  *
- * (C) Copyright 2010 Przemyslaw Pawelczyk <przemoc@gmail.com>
+ * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
  * This file is released under the GPLv2.
  * See the file COPYING for more details.
@@ -17,10 +17,13 @@
 #include <limits.h>
 #include <sys/file.h>
 
+
 const char *default_debugfs_dir = "/sys/kernel/debug";
 const char *eev_file_name = "eev0";
 
-static void process_data(struct evdev_event *ev)
+
+static void
+process_data(struct evdev_event *ev)
 {
 	if (ev->type != EV_KEY || ev->code >= KEYSYMS_COUNT)
 		return;
@@ -32,7 +35,9 @@ static void process_data(struct evdev_event *ev)
 	      );
 }
 
-int main(int argc, char **argv)
+
+int
+main(int argc, char **argv)
 {
 	int rc;
 	int relay_file;
@@ -60,8 +65,8 @@ int main(int argc, char **argv)
 	};
 
 	{
-		char tmp[32 * sizeof (struct evdev_event)];
-		while(read(relay_file, tmp, 32 * sizeof (struct evdev_event)))
+		char tmp[32 * sizeof(struct evdev_event)];
+		while(read(relay_file, tmp, 32 * sizeof(struct evdev_event)))
 			;
 	}
 
@@ -75,7 +80,7 @@ int main(int argc, char **argv)
 			perror("poll");
 			continue;
 		}
-		while((rc = read(relay_file, &buf, sizeof (struct evdev_event))))
+		while((rc = read(relay_file, &buf, sizeof(struct evdev_event))))
 			if (rc < 0) {
 				perror("read");
 				continue;

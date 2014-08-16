@@ -1,6 +1,6 @@
 /* Key Activity On-Screen display - Evdev Events Voyeur keysyms
  *
- * (C) Copyright 2010 Przemyslaw Pawelczyk <przemoc@gmail.com>
+ * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
  * This file is released under the GPLv2.
  * See the file COPYING for more details.
@@ -8,8 +8,11 @@
 
 #include <keysyms.h>
 
-// Below array is based on the part of include/linux/input.h (Linux 2.6.34),
-// which is mainly written by Vojtech Pavlik and Dmitry Torokhov.
+
+/*
+ * Below array is based on the part of include/linux/input.h (Linux 2.6.34),
+ * which is mainly written by Vojtech Pavlik and Dmitry Torokhov.
+ */
 struct keysym keysyms[] = {
 	{ EEV_KEY, "RESERVED"        , ""                },
 	{ EEV_KEY, "ESC"             , "Esc"             },

@@ -1,6 +1,6 @@
 /* Key Activity On-Screen display - monitor class header
  *
- * (C) Copyright 2010 Przemyslaw Pawelczyk <przemoc@gmail.com>
+ * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
  * This file is released under the GPLv2.
  * See the file COPYING for more details.
@@ -11,8 +11,10 @@
 
 #include <QObject>
 
+
 class QFile;
 class QSocketNotifier;
+
 
 class EevKeyMonitor : public QObject
 {
@@ -39,5 +41,6 @@ private:
 	QFile *file;
 	QSocketNotifier *notifier;
 };
+
 
 #endif // EEVKEYMONITOR_H_
