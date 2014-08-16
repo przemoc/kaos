@@ -9,7 +9,8 @@
 #include "keystrokes.h"
 #include "keymonitor.h"
 
-#include <QtGui>
+#include <QApplication>
+
 
 const char* defaultDebugfsDir = "/sys/kernel/debug";
 

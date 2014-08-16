@@ -10,7 +10,13 @@
 #include "keysyms.h"
 
 #include <QTimer>
-#include <QtGui>
+
+#if QT_VERSION >= 0x50000
+# include <QtWidgets>
+#else
+# include <QtGui>
+#endif
+
 
 KeyStrokes::KeyStrokes(QWidget *parent) :
 		QWidget(parent, Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)

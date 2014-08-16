@@ -21,7 +21,7 @@ Requirements
   * Generic input layer - `CONFIG_INPUT=y`
   * Kprobes - `CONFIG_KPROBES=y`
   * Kernel->user space relay support - `CONFIG_RELAY=y`
-- Qt 4
+- Qt 4 or 5
 
 
 Usage
