@@ -1,4 +1,4 @@
-/* Key Activity On-Screen display - Evdev Events Voyeur kernel module
+/* Key Activity On-Screen display - Shady Input Events Voyeur kernel module
  *
  * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
@@ -14,7 +14,7 @@
 #include <linux/types.h>
 #include <linux/version.h>
 
-#define EEV_PREFIX "eev: "
+#define SIEV_PREFIX "siev: "
 
 
 static struct rchan *chan;
@@ -79,7 +79,7 @@ jinput_pass_event(struct input_dev *dev,
 }
 
 
-static struct jprobe evdev_jprobe = {
+static struct jprobe siev_jprobe = {
 	.entry = jinput_pass_event,
 	.kp = {
 		.symbol_name = "input_pass_event",
@@ -88,7 +88,7 @@ static struct jprobe evdev_jprobe = {
 
 
 static int __init
-eev_init(void)
+siev_init(void)
 {
 	int ret;
 
@@ -98,40 +98,40 @@ eev_init(void)
 	chan = relay_open("eev", NULL, subbuf_size, n_subbufs, &relayfs_callbacks,
 	                  NULL);
 	if (!chan) {
-		printk(KERN_INFO EEV_PREFIX "relay channel creation failed\n");
+		printk(KERN_INFO SIEV_PREFIX "relay channel creation failed\n");
 		return -ENOMEM;
 	}
 
-	ret = register_jprobe(&evdev_jprobe);
+	ret = register_jprobe(&siev_jprobe);
 	if (ret < 0) {
-		printk(KERN_INFO EEV_PREFIX "jprobe registering failed, returned %d\n",
+		printk(KERN_INFO SIEV_PREFIX "jprobe registering failed, returned %d\n",
 		       ret);
 		relay_close(chan);
 		return -1;
 	}
 
-	printk(KERN_INFO EEV_PREFIX "jprobe at %p registered\n",
-	       evdev_jprobe.kp.addr);
+	printk(KERN_INFO SIEV_PREFIX "jprobe at %p registered\n",
+	       siev_jprobe.kp.addr);
 
 	return 0;
 }
 
 
 static void __exit
-eev_exit(void)
+siev_exit(void)
 {
-	unregister_jprobe(&evdev_jprobe);
-	printk(KERN_INFO EEV_PREFIX "jprobe at %p unregistered\n",
-	       evdev_jprobe.kp.addr);
+	unregister_jprobe(&siev_jprobe);
+	printk(KERN_INFO SIEV_PREFIX "jprobe at %p unregistered\n",
+	       siev_jprobe.kp.addr);
 	if (chan)
 		relay_close(chan);
 }
 
 
-module_init(eev_init)
-module_exit(eev_exit)
+module_init(siev_init)
+module_exit(siev_exit)
 
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Przemyslaw Pawelczyk");
-MODULE_DESCRIPTION("Evdev Events Voyeur");
+MODULE_DESCRIPTION("Shady Input Events Voyeur");
