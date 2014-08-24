@@ -6,8 +6,8 @@
  * See the file COPYING for more details.
  */
 
-#include "eev.h"
-#include "eevtypes.h"
+#include "siev.h"
+#include "sievtypes.h"
 #include "keysyms.h"
 
 #include <stdio.h>
@@ -19,7 +19,7 @@
 
 
 const char *default_debugfs_dir = "/sys/kernel/debug";
-const char *siev_file_name = "eev0";
+const char *siev_file_name = "siev0";
 
 
 static void

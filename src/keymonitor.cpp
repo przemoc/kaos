@@ -7,7 +7,7 @@
  */
 
 #include "keymonitor.h"
-#include "eev.h"
+#include "siev.h"
 
 #include <QDir>
 #include <QFile>
@@ -17,7 +17,7 @@
 #include <sys/file.h>
 
 
-const char* SIEVKeyMonitor::sievFileName = "eev0";
+const char* SIEVKeyMonitor::sievFileName = "siev0";
 
 
 SIEVKeyMonitor::SIEVKeyMonitor(QObject *parent)

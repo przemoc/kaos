@@ -95,7 +95,7 @@ siev_init(void)
 	relay_file_operations_w_owner = relay_file_operations;
 	relay_file_operations_w_owner.owner = THIS_MODULE;
 
-	chan = relay_open("eev", NULL, subbuf_size, n_subbufs, &relayfs_callbacks,
+	chan = relay_open("siev", NULL, subbuf_size, n_subbufs, &relayfs_callbacks,
 	                  NULL);
 	if (!chan) {
 		printk(KERN_INFO SIEV_PREFIX "relay channel creation failed\n");

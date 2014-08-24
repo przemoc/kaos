@@ -1,5 +1,5 @@
-OBJS = dumbdump.o eevtypes.o keysyms.o
-INCL = ../include/eev.h ../include/eevtypes.h ../include/keysyms.h
+OBJS = dumbdump.o sievtypes.o keysyms.o
+INCL = ../include/siev.h ../include/sievtypes.h ../include/keysyms.h
 OUT = dumbdump
 
 CFLAGS += -Wall
@@ -7,7 +7,7 @@ override CFLAGS += -I../include
 
 all: $(OUT)
 
-eevtypes.o: ../common/eevtypes.c
+sievtypes.o: ../common/sievtypes.c
 	$(CC) $(CFLAGS)   -c -o $@ $<
 
 keysyms.o: ../common/keysyms.c

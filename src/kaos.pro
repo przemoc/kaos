@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 HEADERS += \
 	keymonitor.h \
 	keystrokes.h \
-	../include/eev.h \
+	../include/siev.h \
 	../include/keysyms.h
 SOURCES += \
 	main.cpp \

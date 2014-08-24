@@ -1,1 +1,1 @@
-obj-m += eev.o
+obj-m += siev.o

@@ -10,9 +10,9 @@ clean:
 	$(MAKE) -C $(KDIR) M=$(CWD)/src clean
 
 load: module
-	insmod ./src/eev.ko
+	insmod ./src/siev.ko
 
 unload:
-	rmmod eev
+	rmmod siev
 
 .PHONY: all module clean load unload
