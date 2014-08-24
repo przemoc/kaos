@@ -68,8 +68,8 @@ static struct rchan_callbacks relayfs_callbacks = {
 
 
 static void
-jinput_pass_event(struct input_dev *dev,
-                  unsigned int type, unsigned int code, int value)
+siev_jp_input_event(struct input_dev *dev,
+                    unsigned int type, unsigned int code, int value)
 {
 	int event_parms[3] = { type, code, value };
 
@@ -79,10 +79,30 @@ jinput_pass_event(struct input_dev *dev,
 }
 
 
-static struct jprobe siev_jprobe = {
-	.entry = jinput_pass_event,
-	.kp = {
-		.symbol_name = "input_pass_event",
+static void
+siev_jp_input_inject_event(struct input_handle *handle,
+                           unsigned int type, unsigned int code, int value)
+{
+	int event_parms[3] = { type, code, value };
+
+	relay_write(chan, event_parms, 3 * sizeof(int));
+
+	jprobe_return();
+}
+
+
+static struct jprobe *siev_jprobes[] = {
+	&(struct jprobe){
+		.entry = siev_jp_input_event,
+		.kp = {
+			.symbol_name = "input_event",
+		},
+	},
+	&(struct jprobe){
+		.entry = siev_jp_input_inject_event,
+		.kp = {
+			.symbol_name = "input_inject_event",
+		},
 	},
 };
 
@@ -98,20 +118,22 @@ siev_init(void)
 	chan = relay_open("siev", NULL, subbuf_size, n_subbufs, &relayfs_callbacks,
 	                  NULL);
 	if (!chan) {
-		printk(KERN_INFO SIEV_PREFIX "relay channel creation failed\n");
+		printk(KERN_INFO SIEV_PREFIX
+		       "relay channel creation failed\n");
 		return -ENOMEM;
 	}
 
-	ret = register_jprobe(&siev_jprobe);
+	ret = register_jprobes(siev_jprobes, ARRAY_SIZE(siev_jprobes));
 	if (ret < 0) {
-		printk(KERN_INFO SIEV_PREFIX "jprobe registering failed, returned %d\n",
+		printk(KERN_INFO SIEV_PREFIX
+		       "jprobes registering failed, returned %d\n",
 		       ret);
 		relay_close(chan);
 		return -1;
 	}
 
-	printk(KERN_INFO SIEV_PREFIX "jprobe at %p registered\n",
-	       siev_jprobe.kp.addr);
+	printk(KERN_INFO SIEV_PREFIX
+	       "jprobes registered successfully\n");
 
 	return 0;
 }
@@ -120,9 +142,9 @@ siev_init(void)
 static void __exit
 siev_exit(void)
 {
-	unregister_jprobe(&siev_jprobe);
-	printk(KERN_INFO SIEV_PREFIX "jprobe at %p unregistered\n",
-	       siev_jprobe.kp.addr);
+	unregister_jprobes(siev_jprobes, ARRAY_SIZE(siev_jprobes));
+	printk(KERN_INFO SIEV_PREFIX
+	       "jprobes unregistered\n");
 	if (chan)
 		relay_close(chan);
 }
