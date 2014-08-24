@@ -1,4 +1,4 @@
-/* Key Activity On-Screen display - Evdev Events Voyeur header
+/* Key Activity On-Screen display - Shady Input Events Voyeur header
  *
  * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
@@ -6,8 +6,8 @@
  * See the file COPYING for more details.
  */
 
-#ifndef EEV_HEADER_
-#define EEV_HEADER_
+#ifndef SIEV_HEADER_
+#define SIEV_HEADER_
 
 
 /* Event type */
@@ -19,7 +19,7 @@ enum ev_type {
 };
 
 
-struct evdev_event {
+struct siev_event {
 	unsigned type;
 	unsigned code;
 	int value;
@@ -29,4 +29,4 @@ struct evdev_event {
 #define KEYSYMS_COUNT 529
 
 
-#endif /* EEV_HEADER_ */
+#endif /* SIEV_HEADER_ */

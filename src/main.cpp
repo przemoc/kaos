@@ -18,7 +18,7 @@ const char* defaultDebugfsDir = "/sys/kernel/debug";
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	EevKeyMonitor keyMonitor;
+	SIEVKeyMonitor keyMonitor;
 	KeyStrokes keyStrokes;
 
 	keyStrokes.connect(&keyMonitor, SIGNAL(keyPressed(unsigned)),

@@ -1,4 +1,4 @@
-/* Key Activity On-Screen display - Evdev Events Voyeur types
+/* Key Activity On-Screen display - Shady Input Events Voyeur types
  *
  * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
@@ -7,7 +7,7 @@
  */
 
 
-const char *eev_types[] = {
+const char *siev_types[] = {
 	"Key",
 	"Button",
 	"undefined",

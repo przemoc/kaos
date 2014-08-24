@@ -6,8 +6,8 @@
  * See the file COPYING for more details.
  */
 
-#ifndef EEVKEYMONITOR_H_
-#define EEVKEYMONITOR_H_
+#ifndef SIEVKEYMONITOR_H_
+#define SIEVKEYMONITOR_H_
 
 #include <QObject>
 
@@ -16,13 +16,13 @@ class QFile;
 class QSocketNotifier;
 
 
-class EevKeyMonitor : public QObject
+class SIEVKeyMonitor : public QObject
 {
 	Q_OBJECT
 
 public:
-	explicit EevKeyMonitor(QObject *parent = 0);
-	virtual ~EevKeyMonitor();
+	explicit SIEVKeyMonitor(QObject *parent = 0);
+	virtual ~SIEVKeyMonitor();
 	bool init(QString debugfsDir);
 
 signals:
@@ -33,14 +33,14 @@ private slots:
 	void readInputEvents();
 
 private:
-	EevKeyMonitor(const EevKeyMonitor&);
-	EevKeyMonitor& operator=(const EevKeyMonitor&);
+	SIEVKeyMonitor(const SIEVKeyMonitor&);
+	SIEVKeyMonitor& operator=(const SIEVKeyMonitor&);
 
-	static const char* eevFileName;
+	static const char* sievFileName;
 
 	QFile *file;
 	QSocketNotifier *notifier;
 };
 
 
-#endif // EEVKEYMONITOR_H_
+#endif // SIEVKEYMONITOR_H_

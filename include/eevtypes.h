@@ -1,4 +1,4 @@
-/* Key Activity On-Screen display - Evdev Events Voyeur types header
+/* Key Activity On-Screen display - Shady Input Events Voyeur types header
  *
  * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
@@ -6,11 +6,11 @@
  * See the file COPYING for more details.
  */
 
-#ifndef EEVTYPES_HEADER_
-#define EEVTYPES_HEADER_
+#ifndef SIEVTYPES_HEADER_
+#define SIEVTYPES_HEADER_
 
 
-extern const char *eev_types[];
+extern const char *siev_types[];
 
 
-#endif /* EEVTYPES_HEADER_ */
+#endif /* SIEVTYPES_HEADER_ */

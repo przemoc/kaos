@@ -17,16 +17,16 @@
 #include <sys/file.h>
 
 
-const char* EevKeyMonitor::eevFileName = "eev0";
+const char* SIEVKeyMonitor::sievFileName = "eev0";
 
 
-EevKeyMonitor::EevKeyMonitor(QObject *parent)
+SIEVKeyMonitor::SIEVKeyMonitor(QObject *parent)
 	: QObject(parent), file(0), notifier(0)
 {
 }
 
 
-EevKeyMonitor::~EevKeyMonitor()
+SIEVKeyMonitor::~SIEVKeyMonitor()
 {
 	delete file;
 	delete notifier;
@@ -34,11 +34,11 @@ EevKeyMonitor::~EevKeyMonitor()
 
 
 void
-EevKeyMonitor::readInputEvents()
+SIEVKeyMonitor::readInputEvents()
 {
-	struct evdev_event ev;
+	struct siev_event ev;
 
-	while (file->read((char *)&ev, sizeof(struct evdev_event))) {
+	while (file->read((char *)&ev, sizeof(struct siev_event))) {
 		if (ev.type != EV_KEY || ev.code >= KEYSYMS_COUNT)
 			continue;
 		if (ev.value == 1)
@@ -50,36 +50,36 @@ EevKeyMonitor::readInputEvents()
 
 
 bool
-EevKeyMonitor::init(QString debugfsDir)
+SIEVKeyMonitor::init(QString debugfsDir)
 {
-	QDir eevDir(debugfsDir);
-	if (!eevDir.exists()) {
+	QDir sievDir(debugfsDir);
+	if (!sievDir.exists()) {
 		qCritical("Directory %s does not exist!", qPrintable(debugfsDir));
 		return false;
 	}
 
-	QString eevFilePath = eevDir.absoluteFilePath(eevFileName);
-	if (!QFile::exists(eevFilePath)) {
-		qCritical("File %s does not exist!", qPrintable(eevFilePath));
+	QString sievFilePath = sievDir.absoluteFilePath(sievFileName);
+	if (!QFile::exists(sievFilePath)) {
+		qCritical("File %s does not exist!", qPrintable(sievFilePath));
 		return false;
 	}
 
-	std::auto_ptr<QFile> eevFile(new QFile(eevFilePath));
-	if (!eevFile->open(QIODevice::ReadOnly)) {
-		qCritical("File %s could not be opened!", qPrintable(eevFilePath));
+	std::auto_ptr<QFile> sievFile(new QFile(sievFilePath));
+	if (!sievFile->open(QIODevice::ReadOnly)) {
+		qCritical("File %s could not be opened!", qPrintable(sievFilePath));
 		return false;
 	}
-	if (flock(eevFile->handle(), LOCK_EX | LOCK_NB) == -1) {
-		qCritical("File %s is already locked!\n", qPrintable(eevFilePath));
+	if (flock(sievFile->handle(), LOCK_EX | LOCK_NB) == -1) {
+		qCritical("File %s is already locked!\n", qPrintable(sievFilePath));
 		return false;
 	}
-	eevFile->readAll();
+	sievFile->readAll();
 
-	notifier = new QSocketNotifier(eevFile->handle(), QSocketNotifier::Read);
+	notifier = new QSocketNotifier(sievFile->handle(), QSocketNotifier::Read);
 	QObject::connect(notifier, SIGNAL(activated(int)), SLOT(readInputEvents()));
 	notifier->setEnabled(true);
 
-	file = eevFile.release();
+	file = sievFile.release();
 
 	return true;
 }

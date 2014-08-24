@@ -19,17 +19,17 @@
 
 
 const char *default_debugfs_dir = "/sys/kernel/debug";
-const char *eev_file_name = "eev0";
+const char *siev_file_name = "eev0";
 
 
 static void
-process_data(struct evdev_event *ev)
+process_data(struct siev_event *ev)
 {
 	if (ev->type != EV_KEY || ev->code >= KEYSYMS_COUNT)
 		return;
 	printf("%d (%s_%s) %s\n",
 	       ev->value,
-	       eev_types[keysyms[ev->code].type],
+	       siev_types[keysyms[ev->code].type],
 	       keysyms[ev->code].kname,
 	       keysyms[ev->code].name
 	      );
@@ -41,21 +41,21 @@ main(int argc, char **argv)
 {
 	int rc;
 	int relay_file;
-	struct evdev_event buf;
-	char eev_file_path[PATH_MAX + 1] = "\0";
+	struct siev_event buf;
+	char siev_file_path[PATH_MAX + 1] = "\0";
 
-	strncat(eev_file_path, argc > 1 ? argv[1] : default_debugfs_dir, PATH_MAX);
-	rc = strlen(eev_file_path);
-	strncat(eev_file_path + rc, "/", PATH_MAX - rc);
-	strncat(eev_file_path + rc + 1, eev_file_name, PATH_MAX - rc - 1);
+	strncat(siev_file_path, argc > 1 ? argv[1] : default_debugfs_dir, PATH_MAX);
+	rc = strlen(siev_file_path);
+	strncat(siev_file_path + rc, "/", PATH_MAX - rc);
+	strncat(siev_file_path + rc + 1, siev_file_name, PATH_MAX - rc - 1);
 
-	relay_file = open(eev_file_path, O_RDONLY);
+	relay_file = open(siev_file_path, O_RDONLY);
 	if (relay_file < 0) {
-		fprintf(stderr, "File %s could not be opened!\n", eev_file_path);
+		fprintf(stderr, "File %s could not be opened!\n", siev_file_path);
 		return 1;
 	}
 	if (flock(relay_file, LOCK_EX | LOCK_NB) == -1) {
-		fprintf(stderr, "File %s is already locked!\n", eev_file_path);
+		fprintf(stderr, "File %s is already locked!\n", siev_file_path);
 		return 1;
 	}
 
@@ -65,8 +65,8 @@ main(int argc, char **argv)
 	};
 
 	{
-		char tmp[32 * sizeof(struct evdev_event)];
-		while(read(relay_file, tmp, 32 * sizeof(struct evdev_event)))
+		char tmp[32 * sizeof(struct siev_event)];
+		while(read(relay_file, tmp, 32 * sizeof(struct siev_event)))
 			;
 	}
 
@@ -80,7 +80,7 @@ main(int argc, char **argv)
 			perror("poll");
 			continue;
 		}
-		while((rc = read(relay_file, &buf, sizeof(struct evdev_event))))
+		while((rc = read(relay_file, &buf, sizeof(struct siev_event))))
 			if (rc < 0) {
 				perror("read");
 				continue;

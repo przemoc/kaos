@@ -1,4 +1,4 @@
-/* Key Activity On-Screen display - Evdev Events Voyeur keysyms header
+/* Key Activity On-Screen display - Shady Input Events Voyeur keysyms header
  *
  * (C) Copyright 2010-2014 Przemyslaw Pawelczyk <przemoc@gmail.com>
  *
@@ -11,20 +11,20 @@
 
 
 /* Input key event type */
-enum eev_type {
+enum siev_type {
 	/* key */
-	EEV_KEY = 0,
+	SIEV_KEY = 0,
 	/* button */
-	EEV_BTN,
+	SIEV_BTN,
 	/* undefined */
-	EEV_UND,
+	SIEV_UND,
 	/* reserved */
-	EEV_RES
+	SIEV_RES
 };
 
 
 struct keysym {
-	const enum eev_type type;
+	const enum siev_type type;
 	const char *kname;
 	const char *name;
 };
