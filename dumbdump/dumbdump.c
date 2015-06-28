@@ -25,8 +25,17 @@ const char *siev_file_name = "siev0";
 static void
 process_data(struct siev_event *ev)
 {
+	static unsigned count = 0;
+
+	if (ev->type == EV_SYN && count) {
+		puts("---");
+		count = 0;
+		return;
+	}
 	if (ev->type != EV_KEY || ev->code >= KEYSYMS_COUNT)
 		return;
+
+	count++;
 	printf("%d (%s_%s) %s\n",
 	       ev->value,
 	       siev_types[keysyms[ev->code].type],
