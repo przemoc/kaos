@@ -20,7 +20,7 @@
 static struct rchan *chan;
 
 static const size_t subbuf_size __initconst = 3 * sizeof(int);
-static const size_t n_subbufs   __initconst = 32;
+static const size_t n_subbufs   __initconst = 256;
 
 static struct file_operations relay_file_operations_w_owner;
 
