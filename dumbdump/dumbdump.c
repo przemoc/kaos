@@ -17,6 +17,8 @@
 #include <limits.h>
 #include <sys/file.h>
 
+#define MAX_SIEV_EVENTS 256
+
 
 const char *default_debugfs_dir = "/sys/kernel/debug";
 const char *siev_file_name = "siev0";
@@ -74,8 +76,8 @@ main(int argc, char **argv)
 	};
 
 	{
-		char tmp[32 * sizeof(struct siev_event)];
-		while(read(relay_file, tmp, 32 * sizeof(struct siev_event)))
+		char tmp[MAX_SIEV_EVENTS * sizeof(struct siev_event)];
+		while (read(relay_file, tmp, sizeof(tmp)))
 			;
 	}
 
