@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <sys/file.h>
+#include <map>
 
 
 const char* SIEVKeyMonitor::sievFileName = "siev0";
@@ -36,15 +37,23 @@ SIEVKeyMonitor::~SIEVKeyMonitor()
 void
 SIEVKeyMonitor::readInputEvents()
 {
+	static std::map<unsigned, bool> keys;
 	struct siev_event ev;
 
 	while (file->read((char *)&ev, sizeof(struct siev_event))) {
 		if (ev.type != EV_KEY || ev.code >= KEYSYMS_COUNT)
 			continue;
-		if (ev.value == 1)
+
+		bool & isPressed = keys[ev.code];
+
+		if (!isPressed && ev.value == 1) {
+			isPressed = 1;
 			emit keyPressed(ev.code);
-		else if (ev.value == 0)
+		}
+		else if (isPressed && ev.value == 0) {
+			isPressed = 0;
 			emit keyReleased(ev.code);
+		}
 	}
 }
 
