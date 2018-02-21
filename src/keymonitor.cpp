@@ -21,6 +21,15 @@
 const char* SIEVKeyMonitor::sievFileName = "siev0";
 
 
+/* Be C++17 ready, yet still work with C++03. */
+#if __cplusplus >= 201103L
+template <typename T>
+using auto_ptr = std::unique_ptr<T>;
+#else
+using std::auto_ptr;
+#endif
+
+
 SIEVKeyMonitor::SIEVKeyMonitor(QObject *parent)
 	: QObject(parent), file(0), notifier(0)
 {
@@ -73,7 +82,7 @@ SIEVKeyMonitor::init(QString debugfsDir)
 		return false;
 	}
 
-	std::auto_ptr<QFile> sievFile(new QFile(sievFilePath));
+	auto_ptr<QFile> sievFile(new QFile(sievFilePath));
 	if (!sievFile->open(QIODevice::ReadOnly)) {
 		qCritical("File %s could not be opened!", qPrintable(sievFilePath));
 		return false;
